@@ -12,9 +12,23 @@ import {
     MessageSquare,
     Globe,
     Languages,
+    LucideIcon,
 } from "lucide-react";
 
-const skillCategories = [
+interface Skill {
+    name: string;
+    icon: LucideIcon;
+    level: number;
+    label?: string;
+}
+
+interface SkillCategory {
+    title: string;
+    color: string;
+    skills: Skill[];
+}
+
+const skillCategories: SkillCategory[] = [
     {
         title: "Core Expertise",
         color: "navy",
@@ -83,10 +97,10 @@ export default function Skills() {
                                 <h3 className="text-xl font-bold text-navy-900 mb-6 flex items-center gap-3">
                                     <span
                                         className={`w-3 h-3 rounded-full ${category.color === "navy"
-                                                ? "bg-navy-800"
-                                                : category.color === "gold"
-                                                    ? "bg-gold-500"
-                                                    : "bg-slate-600"
+                                            ? "bg-navy-800"
+                                            : category.color === "gold"
+                                                ? "bg-gold-500"
+                                                : "bg-slate-600"
                                             }`}
                                     />
                                     {category.title}
@@ -126,10 +140,10 @@ export default function Skills() {
                                                         ease: "easeOut",
                                                     }}
                                                     className={`h-full rounded-full ${category.color === "navy"
-                                                            ? "bg-gradient-to-r from-navy-800 to-navy-600"
-                                                            : category.color === "gold"
-                                                                ? "bg-gradient-to-r from-gold-500 to-amber-500"
-                                                                : "bg-gradient-to-r from-slate-600 to-slate-400"
+                                                        ? "bg-gradient-to-r from-navy-800 to-navy-600"
+                                                        : category.color === "gold"
+                                                            ? "bg-gradient-to-r from-gold-500 to-amber-500"
+                                                            : "bg-gradient-to-r from-slate-600 to-slate-400"
                                                         }`}
                                                 />
                                             </div>
