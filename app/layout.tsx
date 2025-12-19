@@ -9,6 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://masum.ailearnersbd.com"),
   title: "Masum Billah | Head of Administration & HR Specialist",
   description: "Dynamic administrative leader with expertise in Office Management, HR Operations, and Social Compliance. Transforming organizational vision into operational excellence.",
   keywords: ["Administration", "HR Specialist", "Leadership", "Office Management", "Social Compliance", "Bangladesh"],
