@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Linkedin, Facebook } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const navLinks = [
@@ -11,6 +11,11 @@ const navLinks = [
     { name: "Skills", href: "#skills" },
     { name: "Leadership", href: "#leadership" },
     { name: "Contact", href: "#contact" },
+];
+
+const socialLinks = [
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/masumbillah86", icon: Linkedin },
+    { name: "Facebook", href: "https://www.facebook.com/masumbillah86", icon: Facebook },
 ];
 
 export default function Navbar() {
@@ -25,14 +30,29 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Smooth scroll handler for mobile
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        e.preventDefault();
+        setIsOpen(false);
+
+        // Small delay to allow menu to close first
+        setTimeout(() => {
+            const targetId = href.replace("#", "");
+            const element = document.getElementById(targetId);
+            if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }, 100);
+    };
+
     return (
         <motion.nav
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             transition={{ duration: 0.5 }}
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-                    ? "bg-white/80 backdrop-blur-lg shadow-lg"
-                    : "bg-transparent"
+                ? "bg-white/80 backdrop-blur-lg shadow-lg"
+                : "bg-transparent"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,6 +79,25 @@ export default function Navbar() {
                                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gold-500 transition-all duration-300 group-hover:w-full" />
                             </motion.a>
                         ))}
+
+                        {/* Social Icons - Desktop */}
+                        <div className="flex items-center gap-3 ml-2">
+                            {socialLinks.map((social) => (
+                                <motion.a
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-9 h-9 rounded-full bg-navy-900/5 flex items-center justify-center text-navy-600 hover:bg-gold-500 hover:text-white transition-all"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    aria-label={social.name}
+                                >
+                                    <social.icon size={18} />
+                                </motion.a>
+                            ))}
+                        </div>
+
                         <motion.a
                             href="#contact"
                             className="btn-primary text-sm"
@@ -79,34 +118,78 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                {/* Mobile Navigation */}
-                <motion.div
-                    initial={false}
-                    animate={{
-                        height: isOpen ? "auto" : 0,
-                        opacity: isOpen ? 1 : 0,
-                    }}
-                    transition={{ duration: 0.3 }}
-                    className="md:hidden overflow-hidden bg-white/95 backdrop-blur-lg rounded-b-2xl"
-                >
-                    <div className="py-4 space-y-2">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.name}
-                                href={link.href}
-                                className="block px-4 py-2 text-navy-700 hover:text-navy-900 hover:bg-slate-100 rounded-lg transition-colors"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                {link.name}
-                            </a>
-                        ))}
-                        <div className="px-4 pt-2">
-                            <a href="#contact" className="btn-primary w-full justify-center text-sm">
-                                Hire Me
-                            </a>
-                        </div>
-                    </div>
-                </motion.div>
+                {/* Mobile Navigation - Full Screen Overlay */}
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                            className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-white/98 backdrop-blur-xl z-40"
+                        >
+                            <div className="flex flex-col h-full px-6 py-8">
+                                {/* Nav Links */}
+                                <div className="flex-1 space-y-2">
+                                    {navLinks.map((link, index) => (
+                                        <motion.a
+                                            key={link.name}
+                                            href={link.href}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: index * 0.05 }}
+                                            className="flex items-center gap-4 px-4 py-4 text-lg font-medium text-navy-800 hover:text-gold-500 hover:bg-gold-500/10 rounded-xl transition-all active:bg-gold-500/20"
+                                            onClick={(e) => handleNavClick(e, link.href)}
+                                        >
+                                            <span className="w-2 h-2 rounded-full bg-gold-500/50" />
+                                            {link.name}
+                                        </motion.a>
+                                    ))}
+                                </div>
+
+                                {/* Social Links - Mobile */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 }}
+                                    className="py-6 border-t border-navy-100"
+                                >
+                                    <p className="text-sm text-navy-500 mb-4 px-4">Connect with me</p>
+                                    <div className="flex gap-4 px-4">
+                                        {socialLinks.map((social) => (
+                                            <a
+                                                key={social.name}
+                                                href={social.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-3 px-4 py-3 bg-navy-50 hover:bg-navy-100 rounded-xl transition-all flex-1"
+                                            >
+                                                <social.icon size={20} className="text-navy-600" />
+                                                <span className="font-medium text-navy-800">{social.name}</span>
+                                            </a>
+                                        ))}
+                                    </div>
+                                </motion.div>
+
+                                {/* CTA Button - Mobile */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.4 }}
+                                    className="pt-4"
+                                >
+                                    <a
+                                        href="#contact"
+                                        className="btn-primary w-full justify-center text-base py-4"
+                                        onClick={(e) => handleNavClick(e, "#contact")}
+                                    >
+                                        Hire Me
+                                    </a>
+                                </motion.div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </motion.nav>
     );
