@@ -27,7 +27,20 @@ export const metadata: Metadata = {
     title: "Masum Billah | Head of Administration & HR Specialist",
     description: "Transforming Organizational Vision into Operational Excellence",
     type: "website",
-    images: ["/android-chrome-512x512.png"],
+    images: [
+      {
+        url: "/profile.jpg",
+        width: 800,
+        height: 800,
+        alt: "Masum Billah - Head of Administration & HR Specialist",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Masum Billah | Head of Administration & HR Specialist",
+    description: "Transforming Organizational Vision into Operational Excellence",
+    images: ["/profile.jpg"],
   },
 };
 
