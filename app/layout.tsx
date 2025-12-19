@@ -13,10 +13,21 @@ export const metadata: Metadata = {
   description: "Dynamic administrative leader with expertise in Office Management, HR Operations, and Social Compliance. Transforming organizational vision into operational excellence.",
   keywords: ["Administration", "HR Specialist", "Leadership", "Office Management", "Social Compliance", "Bangladesh"],
   authors: [{ name: "Masum Billah" }],
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "Masum Billah | Head of Administration & HR Specialist",
     description: "Transforming Organizational Vision into Operational Excellence",
     type: "website",
+    images: ["/android-chrome-512x512.png"],
   },
 };
 
@@ -27,6 +38,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#0f172a" />
+      </head>
       <body className="font-sans">
         {children}
       </body>
